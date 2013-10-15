@@ -1,0 +1,93 @@
+<element name="app-mozfest">
+  <template>
+    <style type="text/css">
+    </style>
+    <div>
+    </div>
+  </template>
+  <friends>app-button</friends>
+  <thumbnail>
+    <span style="color: #fff; text-align: center;">Mozfest 2013</span>
+  </thumbnail>
+  <description>
+    Shows session details for MozFest 2013.
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        console.log('yay');
+        var gid = 1;
+        var callbackFunction = '_appmakerMozfestCallback' + (Math.round(Math.random() * 1000));
+
+        window[callbackFunction] = function (data) {
+          delete window[callbackFunction];
+          var tmpDiv = document.createElement('div');
+          tmpDiv.innerHTML = data;
+          console.log(tmpDiv);
+          var entries = tmpDiv.querySelectorAll('entry');
+          Array.prototype.forEach.call(entries, function (entry) {
+            var entryData = entry.querySelector('category');
+            var cell = entryData.querySelector('title').innerHTML;
+            var col = cell[1];
+            var row = cell[2];
+            console.log(row, col);
+          });
+        };
+
+        var scriptTag = document.createElement('script');
+        scriptTag.src = 'http://spreadsheets.google.com/feeds/cells/0Ajsn8X28XnbZdFlxaEExNkREa1VmWndSdzZjeHRBOXc/' + gid + '/public/basic?callback=' + callbackFunction;
+        console.log(scriptTag.src);
+        document.head.appendChild(scriptTag);
+
+        // var button = this.querySelector('div')
+        // var t = this;
+        // button.onclick = function (e) {
+        //   t.broadcast('click');
+        // };
+        // button.onmousedown = function (e) {
+        //   t.broadcast('mouseDown');
+        // };
+        // button.onmouseup = function (e) {
+        //   t.broadcast('mouseUp');
+        // };
+
+        // this.setLabel(this.getAttribute("buttonLabel") || 'Click Me');
+        // this.setButtonColor(this.getAttribute("buttonColor") || '#4DB227');
+        // this.setTextColor(this.getAttribute("textColor") || '#FFFFFF');
+      },
+      editable: {
+        // buttonLabel: {
+        //   type: "text",
+        //   description: "A text for your label to show up in your app",
+        //   postset: function(v) {
+        //     this.setLabel(v);
+        //   }
+        // },
+        // textColor: {
+        //   type: "text",
+        //   description: "The color of the button label",
+        //   postset: function(v) {
+        //     this.setTextColor(v);
+        //   }
+        // },
+        // buttonColor: {
+        //   type: "text",
+        //   description: "The color of your button",
+        //   postset: function(v) {
+        //     this.setButtonColor(v);
+        //   }
+        // }
+      },
+      // setLabel: function (val) {
+      //   this.querySelector('button').innerHTML = val;
+      // },
+      // setButtonColor: function (val) {
+      //   this.querySelector('button').style.backgroundColor = val;
+      // },
+      // setTextColor: function (val) {
+      //   this.querySelector('button').style.color = val;
+      // },
+      // broadcasts: ['click', 'mouseDown', 'mouseUp']
+    });
+  </script>
+</element>
