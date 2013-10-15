@@ -60,7 +60,9 @@
         }, false);
 
       },
-      broadcasts: ['sendData'],
+      broadcasts: {
+        sendData: { on: true }
+      },
       listeners: {
         setValue: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();

@@ -76,7 +76,9 @@
         this.updateDisplay();
       },
       defaultListener: 'countUp',
-      broadcasts: ['update'],
+      broadcasts: {
+        update: { on: false }
+      },
       listeners: {
         countUp: function (listener,channel) {
           this.count = this.count + parseInt(this.increment);

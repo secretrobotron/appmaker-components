@@ -254,7 +254,9 @@
         }
       },
       defaultListener: "shootRocket",
-      broadcasts: ['kaboom'],
+      broadcasts: {
+        kaboom: { on: false }
+      },
       listeners: {
         shootRocket: function (count, channel) {
           this.log("launching rocket", channel);

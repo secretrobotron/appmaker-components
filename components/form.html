@@ -104,7 +104,9 @@
       setTextColor: function (val) {
         this.querySelector('button').style.color = val;
       },
-      broadcasts: ['send']
+      broadcasts: {
+        send: { on: false }
+      }
     });
   </script>
 </element>

@@ -138,7 +138,9 @@
           }
         },
         defaultListener: "findLocationByName",
-        broadcasts: ['location'],
+        broadcasts: {
+          location: { on: false }
+        },
         listeners: {
           recordLocation: function(val) {
             this.broadcast('location', this.map.getCenter());

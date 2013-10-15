@@ -65,7 +65,11 @@
       setTextColor: function (val) {
         this.querySelector('button').style.color = val;
       },
-      broadcasts: ['click', 'mouseDown', 'mouseUp']
+      broadcasts: {
+        click: { on: true },
+        mouseDown: { on: false },
+        mouseUp: { on: false }
+      }
     });
   </script>
 </element>

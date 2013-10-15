@@ -174,7 +174,10 @@
           }
         },
         defaultListener: 'addItem',
-        broadcasts: ['sendData', 'itemAdded'],
+        broadcasts: {
+          sendData: { on: true },
+          itemAdded: { on: false }
+        },
         listeners: {
           addItem: function (v) {
             this.addAnItem(v);

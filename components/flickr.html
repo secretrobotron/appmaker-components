@@ -75,7 +75,9 @@
         var img = this.querySelector("img");
         this.emit('send', new Text(img.getAttribute("src")),"Image Url");
       },
-      broadcasts: ['send'],
+      broadcasts: {
+        send: { on: false }
+      },
       defaultListener : "newImage",
       listeners: {
         setImageKeyword: function(val, channel) {

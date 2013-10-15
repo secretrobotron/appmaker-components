@@ -87,7 +87,9 @@
         this.broadcast('currentTime', this.currentTime);
       },
       defaultListener : "start",
-      broadcasts: ['ding'],
+      broadcasts: {
+        ding: { on: true }
+      },
       listeners: {
         setTimer : function(listener, channel){
           this.mode = "down";

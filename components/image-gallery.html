@@ -253,7 +253,9 @@
           }
         },
         defaultListener: 'addItem',
-        broadcasts: ['sendImage'],
+        broadcasts: {
+          sendImage: { on: false }
+        },
         listeners: {
           addItem: function (v, channel) {
             this.lookAtMe();

@@ -55,7 +55,9 @@
         this.valueIndicator.innerHTML = val;
         this.broadcasts('changeValue', new Scalar(val), "Slider value");
       },
-      broadcasts: ['changeValue'],
+      broadcasts: {
+        changeValue: { on: true }
+      },
       emitValue: function(val) {},
       editable: {
         startingValue: {

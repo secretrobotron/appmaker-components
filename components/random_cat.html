@@ -42,7 +42,9 @@
         }
       },
       defaultListener: 'changeCat',
-      broadcasts: ['cat'],
+      broadcasts: {
+        cat: { on: false }
+      },
       listeners: {
         changeCat: function () {
           var type = "";

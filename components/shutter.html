@@ -116,7 +116,9 @@
           this.snapshot.src = val.toString();
         }
       },
-      broadcasts: ['pictureTaken']
+      broadcasts: {
+        pictureTaken: { on: true }
+      }
     });
   </script>
 </element>
