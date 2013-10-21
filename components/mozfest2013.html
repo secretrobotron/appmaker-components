@@ -1,9 +1,29 @@
 <element name="app-mozfest">
   <template>
     <style type="text/css">
+      app-mozfest .session {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        padding: 5px;
+        clear: both;
+        border-bottom: 1px solid #ccc;
+      }
+
+      app-mozfest .title {
+        color: #11B;
+        cursor: pointer;
+      }
+
+      app-mozfest .time {
+        text-align: right;
+        font-size: .8em;
+        font-style: italic;
+      }
+
+      app-mozfest iframe {
+        border: 0;
+      }
     </style>
-    <div>
-    </div>
   </template>
   <friends>app-button</friends>
   <thumbnail>
@@ -15,45 +35,79 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        console.log('yay');
-        var gid = 1;
+        var gid = 4;
         var callbackFunction = '_appmakerMozfestCallback' + (Math.round(Math.random() * 1000));
+        var that = this;
 
         window[callbackFunction] = function (data) {
           delete window[callbackFunction];
           var tmpDiv = document.createElement('div');
           tmpDiv.innerHTML = data;
-          console.log(tmpDiv);
           var entries = tmpDiv.querySelectorAll('entry');
+          var sessions = [];
           Array.prototype.forEach.call(entries, function (entry) {
             var entryData = entry.querySelector('category');
-            var cell = entryData.querySelector('title').innerHTML;
+            var cell = entryData.querySelector('title').innerHTML.match(/([A-Z]+)([0-9]+)/);
             var col = cell[1];
-            var row = cell[2];
-            console.log(row, col);
+            var row = Number(cell[2]) - 1;
+
+            if (row === 0) return;
+
+            var session = sessions[row] || {};
+
+            var map = {
+              A: 'start',
+              B: 'end',
+              D: 'title',
+              H: 'link'
+            };
+
+            if (map[col]) {
+              session[map[col]] = entryData.querySelector('content').innerHTML;
+            }
+
+            sessions[row] = session;
+          });
+
+          sessions = sessions.sort(function (a, b) {
+            return (a.start < b.start) ? -1 : (a.start > b.start ? 1 : 0);
+          });
+
+          var iframe;
+
+          sessions.forEach(function (session) {
+            var sessionDiv = document.createElement('div');
+            var titleDiv = document.createElement('div');
+            var timeDiv = document.createElement('div');
+            sessionDiv.classList.add('session');
+            timeDiv.classList.add('time');
+            titleDiv.classList.add('title');
+            titleDiv.innerHTML = session.title;
+            timeDiv.innerHTML = session.start + ' - ' + session.end;
+            sessionDiv.appendChild(titleDiv);
+            sessionDiv.appendChild(timeDiv);
+            that.appendChild(sessionDiv);
+
+            titleDiv.onclick = function (e) {
+              var parentNode;
+              if (iframe) {
+                parentNode = iframe.parentNode;
+                if (parentNode) {
+                  iframe.parentNode.removeChild(iframe);
+                }
+              }
+              if (parentNode !== sessionDiv && session.link) {
+                iframe = document.createElement('iframe');
+                iframe.src = session.link;
+                sessionDiv.appendChild(iframe);
+              }
+            };
           });
         };
 
         var scriptTag = document.createElement('script');
         scriptTag.src = 'http://spreadsheets.google.com/feeds/cells/0Ajsn8X28XnbZdFlxaEExNkREa1VmWndSdzZjeHRBOXc/' + gid + '/public/basic?callback=' + callbackFunction;
-        console.log(scriptTag.src);
         document.head.appendChild(scriptTag);
-
-        // var button = this.querySelector('div')
-        // var t = this;
-        // button.onclick = function (e) {
-        //   t.broadcast('click');
-        // };
-        // button.onmousedown = function (e) {
-        //   t.broadcast('mouseDown');
-        // };
-        // button.onmouseup = function (e) {
-        //   t.broadcast('mouseUp');
-        // };
-
-        // this.setLabel(this.getAttribute("buttonLabel") || 'Click Me');
-        // this.setButtonColor(this.getAttribute("buttonColor") || '#4DB227');
-        // this.setTextColor(this.getAttribute("textColor") || '#FFFFFF');
       },
       editable: {
         // buttonLabel: {
