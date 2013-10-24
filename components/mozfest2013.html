@@ -60,6 +60,10 @@
         var callbackFunction = '_appmakerMozfestCallback' + (Math.round(Math.random() * 1000));
         var that = this;
 
+        function loadContent (gid) {
+
+        }
+
         window[callbackFunction] = function (data) {
           delete window[callbackFunction];
           var tmpDiv = document.createElement('div');
