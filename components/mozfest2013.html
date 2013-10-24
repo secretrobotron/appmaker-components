@@ -18,10 +18,29 @@
         text-align: right;
         font-size: .8em;
         font-style: italic;
+        display: inline;
+        float: right;
       }
 
-      app-mozfest iframe {
-        border: 0;
+      app-mozfest .location {
+        display: inline;
+        float: left;
+      }
+
+      app-mozfest .description {
+        display: none;
+      }
+
+      app-mozfest .description.on {
+        display: block;
+      }
+
+      app-mozfest .meta-container {
+        position: relative;
+        width: 100%;
+        height: 1.2em;
+        margin-top: 5px;
+        margin-bottom: 2px;
       }
     </style>
   </template>
@@ -35,7 +54,9 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        var gid = 4;
+        var gids = [23, 24];
+
+        var gid = 23;
         var callbackFunction = '_appmakerMozfestCallback' + (Math.round(Math.random() * 1000));
         var that = this;
 
@@ -58,7 +79,9 @@
             var map = {
               A: 'start',
               B: 'end',
+              C: 'location',
               D: 'title',
+              E: 'description',
               H: 'link'
             };
 
@@ -79,28 +102,28 @@
             var sessionDiv = document.createElement('div');
             var titleDiv = document.createElement('div');
             var timeDiv = document.createElement('div');
+            var descriptionDiv = document.createElement('div');
+            var locationDiv = document.createElement('div');
+            var metaContainer = document.createElement('div');
+            metaContainer.classList.add('meta-container');
             sessionDiv.classList.add('session');
+            locationDiv.classList.add('location');
+            descriptionDiv.classList.add('description');
             timeDiv.classList.add('time');
             titleDiv.classList.add('title');
             titleDiv.innerHTML = session.title;
+            descriptionDiv.innerHTML = session.description;
             timeDiv.innerHTML = session.start + ' - ' + session.end;
+            locationDiv.innerHTML = session.location;
+            metaContainer.appendChild(locationDiv);
+            metaContainer.appendChild(timeDiv);
             sessionDiv.appendChild(titleDiv);
-            sessionDiv.appendChild(timeDiv);
+            sessionDiv.appendChild(descriptionDiv);
+            sessionDiv.appendChild(metaContainer);
             that.appendChild(sessionDiv);
 
             titleDiv.onclick = function (e) {
-              var parentNode;
-              if (iframe) {
-                parentNode = iframe.parentNode;
-                if (parentNode) {
-                  iframe.parentNode.removeChild(iframe);
-                }
-              }
-              if (parentNode !== sessionDiv && session.link) {
-                iframe = document.createElement('iframe');
-                iframe.src = session.link;
-                sessionDiv.appendChild(iframe);
-              }
+              descriptionDiv.classList.toggle('on');
             };
           });
         };
